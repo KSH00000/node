@@ -21,7 +21,7 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify(emps.filter(a => a.no == _url.query.no)));
   } else if(pathname == '/empDelete'){ //empDelete?no=100
     //splice
-    res.end(JSON.stringify(emps.splice()))
+    res.end(JSON.stringify(emps.splice(a,1)))
   } else if(pathname == '/empInsert'){ //empInsert?no=104&name=hong&age=30
     //push
     res.end(JSON.stringify(emps.push()))

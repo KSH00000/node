@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>customer mamage</h1>
+    <div id="list"></div>
+      <div>
+        <table id="tbl"></table>
+      </div>
+    <script>
+        fetch("http://localhost:3000/customer")
+        .then(result => result.json())
+        .then(result => {
+            for(let cust of result) {
+                const newTag = `<div><span>${cust.id}</span>
+                                     <span>${cust.name}</span>
+                                     <span>${cust.email}</span>
+                                     <span>${cust.phone}</span>
+                                     <span>${cust.address}</span>
+                                </div>`
+               // list.insertAdjacentHTML("beforeend",newTag);  
+
+                let filedList = ['id', 'name', 'email', 'phone', 'address'];
+                let row = tbl.insertRow();
+                for(let filed of filedList) {
+                    let tbl = row.insertCell();
+                    tbl.innerText = cust[filed];
+                }                                
+            }
+        })
+    </script>
+</body>
+</html>
