@@ -21,10 +21,20 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify(emps.filter(a => a.no == _url.query.no)));
   } else if(pathname == '/empDelete'){ //empDelete?no=100
     //splice
+<<<<<<< HEAD
     res.end(JSON.stringify(emps.splice(a,1)))
   } else if(pathname == '/empInsert'){ //empInsert?no=104&name=hong&age=30
     //push
     res.end(JSON.stringify(emps.push()))
+=======
+    
+    res.end(JSON.stringify(emps.splice(a,1) => { for(a=0; a<emps.length; a++){if(a+100 == _url.query.no){
+}}
+}));
+  } else if(pathname == '/empInsert'){ //empInsert?no=104&name=hong&age=30
+    //push
+    res.end(JSON.stringify(emps)
+>>>>>>> 1449e271837402194d7ce1592dde83077b1e1797
   } else {
     res.statusCode = 404;
     res.end();
