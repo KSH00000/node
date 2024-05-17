@@ -3,11 +3,12 @@ const productRoute = require("./routes/product");
 const customerRoute = require("./routes/customer");
 const todoRoute = require("./routes/todo");
 const cmorgan = require("morgan");
+const boardRoute = require("./routes/board")
 
 const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
-const port = 3000;
+const port = 8000;
 
 app.use(morgan("tiny"));
 app.use(cors());
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: false})); //post body queryString ==> req
 app.use("/todo", todoRoute);
 app.use("/product", productRoute);
 app.use("/customer", customerRoute);
+app.use("/board", boardRoute);
 
 app.get("/", (req,res) => {
     res.send("hello world!");
