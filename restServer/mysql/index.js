@@ -3,12 +3,14 @@ const mysql = require("mysql2");
 
 //mysql 접속정보
 const conn = {
-    host: "192.168.0.4", //192.168.56.1
+    host: "localhost", //192.168.56.1
     port: "3306",
-    user: "hr",
-    password: "hr",
-    database: "test",
+    user: "hr2",
+    password: "4567",
+    database: "hr2",
     connectionLimit: 10,
+    timezone:"Asia/Seoul",
+    dateStrings:"true",
 };
 
 //DBCP 커넥션 생성
