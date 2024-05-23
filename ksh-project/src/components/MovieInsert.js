@@ -3,38 +3,62 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 export default function MovieInsert() {
   let txtUsername = useRef(null);
-  let [formdata, setFormdata] = useState({movieImg:"", movieNm:"", mRank:"", openDt:"", salesAcc:"", audiAcc:""});
-  let {mRank, movieNm, openDt, salesAcc, audiAcc, movieImg} = formdata;
+  let [movieData, setMovieData] = useState({movieImgFile:"", movieNm:"", mRank:"", openDt:"", salesAcc:"", audiAcc:""});
+  let {mRank, movieNm, openDt, salesAcc, audiAcc, movieImgFile} = movieData;
   
   useEffect(() => {
     txtUsername.current.focus();
   }, [])
+  
+  const clickHandler = async (e) => {
+   
+   const formData = new FormData();
+  
+    formData.append("mRank", mRank);
+    formData.append("movieNm", movieNm);
+    formData.append("openDt", openDt);
+    formData.append("salesAcc", salesAcc);
+    formData.append("audiAcc", audiAcc);
+    formData.append("movieImgFile", movieImgFile.files[0]);
 
-  const clickHandler = () => {
+   try{
+     const response = await axios.post("http://192.168.0.9:8000/movie", formData, {
+       headers: {
+         "Content-Type": "multipart/form-data",
+        },
+      });
+      txtUsername.current.focus()
+    } catch(error){
+      
+    }
     alert('영화제목:' + movieNm + '개봉날짜:' + openDt)
-    axios.post("http://localhost:8000/", {movieImg, movieNm, mRank, openDt, salesAcc, audiAcc})
-    txtUsername.current.focus();
-  }
+  };
+  
  
-  return (<><form>
-    <input type="file" name="movieImg"
-    onChange={e => setFormdata({...formdata, movieImg: e.target.value})}></input>
-    <input ref={txtUsername} type="text" name="movieNm" placeholder="movieNm" value={movieNm}
-    onChange={e => setFormdata({...formdata, movieNm: e.target.value})}>
+
+ 
+  return (<>
+  <h3>영화등록 하기</h3>
+  <form name="movieDt">
+    <input type="file" name="movieImgFile"  
+    onChange={e => setMovieData({...movieData, movieImgFile: e.target})}>
     </input>
-    <input type="text" name="mRank" placeholder="mRank" value={mRank}
-    onChange={e => setFormdata({...formdata, mRank: e.target.value})}>
+    <input ref={txtUsername} type="text" name="movieNm" placeholder="영화제목" value={movieNm}
+    onChange={e => setMovieData({...movieData, movieNm: e.target.value})}>
     </input>
-    <input type="text" name="openDt" placeholder="openDt" value={openDt}
-    onChange={e => setFormdata({...formdata, openDt: e.target.value})}>
+    <input type="text" name="mRank" placeholder="순위" value={mRank}
+    onChange={e => setMovieData({...movieData, mRank: e.target.value})}>
     </input>
-    <input type="text" name="salesAcc" placeholder="salesAcc" value={salesAcc}
-    onChange={e => setFormdata({...formdata, salesAcc: e.target.value})}>
+    <input type="text" name="openDt" placeholder="개봉날짜 0000-00-00" value={openDt}
+    onChange={e => setMovieData({...movieData, openDt: e.target.value})}>
     </input>
-    <input type="text" name="audiAcc" placeholder="audiAcc" value={audiAcc}
-    onChange={e => setFormdata({...formdata, audiAcc: e.target.value})}>
+    <input type="text" name="salesAcc" placeholder="누적매출액수" value={salesAcc}
+    onChange={e => setMovieData({...movieData, salesAcc: e.target.value})}>
     </input>
-    <button onClick={clickHandler} type="submit">등록</button>
+    <input type="text" name="audiAcc" placeholder="누적관람객수" value={audiAcc}
+    onChange={e => setMovieData({...movieData, audiAcc: e.target.value})}>
+    </input>
+    <button onClick={clickHandler} type="button">등록</button>
   </form>
   </>);
 };

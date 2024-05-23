@@ -7,13 +7,16 @@ const boardRoute = require("./routes/board");
 const movieRoute = require("./routes/movie");
 const reviewRoute = require("./routes/review");
 
+const path = "C:\\Users\\admin\\Desktop\\react_KSH"
 
 const cors = require("cors");
 const morgan = require("morgan");
+
 const app = express();
 const port = 8000;
 
-app.use(express.static("C:\\Users\\admin\\Desktop\\react_KSH"))
+
+app.use(express.static(path))
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
@@ -26,7 +29,7 @@ app.use("/movie", movieRoute);
 app.use("/review", reviewRoute);
 
 // 업로드 - 파일 업로드 폼
-app.get('/upload', function(req, res){
+app.post('/upload', function(req, res){
     res.render('upload');
   });
 app.get("/", (req,res) => {
@@ -34,5 +37,5 @@ app.get("/", (req,res) => {
 });
 
 app.listen(port, () => {
-    console.log(`server runing http://localhost:${port}`);
+    console.log(`server runing http://192.168.0.9:${port}`);
 })

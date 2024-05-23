@@ -1,10 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
+const path = "C:\\Users\\admin\\Desktop\\react_KSH"
+
 const mysql = require("../mysql");
+const multer = require('multer');
+
+const upload = multer({ dest: path});
 
 const sql = {
-    movieList : "select * from movie",
+    movieList : "select * from movie order by mRank",
     movieInfo : "select * from movie where movieCd=?",
     movieInst : "insert into movie set ?",
     movieUpdt : "update movie set ? where movieCd=?",
@@ -23,9 +28,15 @@ router.get("/:movieCd", async (req, res) => {
     res.send(result);
 });
 //등록 req.body
-router.post("/", async (req, res) => {
+router.post("/", upload.single('movieImgFile'), async (req, res) => {
     //const customer = {name:req.body.name, email:req.body.email, phone:req.body.phone, address:req.body.address};
-    let result = await mysql.query(sql.movieInst, req.body);
+    console.log(req.file);
+
+    const data = req.body
+    if(req.file){
+        data.movieImg= req.file.filename;
+    }
+    let result = await mysql.query(sql.movieInst, data);
     if(result.affectedRows == 1){
         res.send(true);
     } else{
